@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <title>Спасибо за Ваш заказ!</title>
+</head>
+<body>
+  <section>
+    <p>
+      Спасибо за Ваш заказ! Вы будете перенаправлены на главную страницу через 5 секунд.
+      Если у вас остались вопросы, напишите нам:
+      <a href="mailto:orders@example.com">orders@example.com</a>.
+    </p>
+    <script>
+      setTimeout(function(){
+        window.location.href = "{% url 'payment:index' %}";
+      }, 5 * 1000);
+    </script>
+  </section>
+</body>
+</html>

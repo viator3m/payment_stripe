@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <title>Оформление заказа отменено</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section>
+    <p>Забыли что-то добавить в свою корзину? Походите по магазинам, а потом возвращайтесь, чтобы заплатить!</p>
+  </section>
+  <script>
+      setTimeout(function(){
+          window.location.href = "{% url 'payment:index' %}";
+      }, 5 * 1000);
+  </script>
+</body>
+</html>
