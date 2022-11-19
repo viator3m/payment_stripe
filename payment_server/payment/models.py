@@ -11,10 +11,8 @@ class Item(models.Model):
     description = models.TextField(
         verbose_name='Описание'
     )
-    price = models.DecimalField(
+    price = models.PositiveSmallIntegerField(
         verbose_name='Цена',
-        max_digits=4,
-        decimal_places=2,
     )
 
     class Meta:

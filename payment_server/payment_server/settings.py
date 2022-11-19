@@ -1,6 +1,6 @@
 import os
 
-from dotenv import load_dotenv, find_dotenv
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -18,6 +18,8 @@ SECRET_KEY = os.getenv('SECRET_KEY', default='your_secret_key')
 DEBUG = os.getenv('DEBUG', default=True)
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', default=['*'])
+
+STRIPE_API_KEY = os.getenv('STRIPE_API_KEY')
 
 
 # Application definition
