@@ -3,13 +3,14 @@
   <head>
     <meta charset="UTF-8">
     <title>Купить {{ item.name }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://js.stripe.com/v3/"></script>
   </head>
   <body>
     <h1>{{ item.name }}</h1>
     <p>{{ item.description}}</p>
     <p>{{ item.price }}</p>
-    <button id="buy-button">Buy</button>
+    <button id="buy-button" class="btn btn-sm btn-primary">Buy</button>
     <script type="text/javascript">
       var stripe = Stripe('pk_test_51M5PC3BDZCxTvXd8btHYELQlmcCYwkodhJbDzHxR9UfvxTtf8z8fRNGKcxVsSMuHbBT5CwKQh1tKYQDLNWmQtsZL00QCpo8TMl');
       var buyButton = document.getElementById('buy-button');
@@ -19,5 +20,16 @@
         .then(({ session_id }) => stripe.redirectToCheckout({ sessionId: session_id }))
       });
     </script>
+
+    {% if in_order %}
+      <a class="btn btn-sm btn-light" href="{% url 'payment:delete_from_order' item.id %}">
+        Удалить из заказа
+      </a>
+    {% else %}
+      <a class="btn btn-sm btn-primary" href="{% url 'payment:add_to_order' item.id %}">
+        Добавить в заказ
+      </a>
+    {% endif %}
+
   </body>
 </html>

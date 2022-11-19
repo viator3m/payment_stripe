@@ -1,10 +1,11 @@
 import stripe
+from django.urls import reverse
 from stripe.error import InvalidRequestError
 from django.http import JsonResponse, HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 from payment_server.settings import STRIPE_API_KEY
-from .models import Item
+from .models import Item, Order
 
 
 def index(request):
@@ -22,8 +23,11 @@ def cancel(request):
 def item_page(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
     template = 'payment/item.html'
+    in_order = Order.objects.filter(item=item_id).exists()
+
     context = {
-        'item': item
+        'item': item,
+        'in_order': in_order
     }
 
     return render(request, template, context)
@@ -53,3 +57,19 @@ def buy_item(request, item_id):
     except InvalidRequestError as error:
         return HttpResponse({'error': error})
     return JsonResponse({'session_id': session.id})
+
+
+def add_to_order(request, item_id):
+    item = Item.objects.get(pk=item_id)
+    order, status = item.order.get_or_create(pk=1)
+    order.amount += item.price
+
+    url = reverse('payment:item', args=(item_id, ))
+    return redirect(url)
+
+
+def delete_from_order(request, item_id):
+    Order.objects.filter(item=item_id).delete()
+
+    url = reverse('payment:item', args=(item_id, ))
+    return redirect(url)
