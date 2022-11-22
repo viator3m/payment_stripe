@@ -3,9 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
-  главная страница
 </head>
 <body>
+  <p>
+    Список всех товаров:
+  </p>
+  {% for item in items %}
+    <h1><a href="{% url 'payment:item' item.id %}">{{ item.name }}</a></h1>
+    <p>{{ item.description}}</p>
+    <p>{{ item.price }}</p>
+    <hr>
+  {% endfor %}
 
 </body>
 </html>
