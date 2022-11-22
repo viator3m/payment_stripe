@@ -28,9 +28,10 @@ class Order(models.Model):
     item = models.ManyToManyField(
         Item,
         verbose_name='Товар',
-        related_name='order'
+        related_name='order',
+        through='OrderItem'
     )
-    amount = models.PositiveSmallIntegerField(
+    total = models.PositiveSmallIntegerField(
         default=0,
         verbose_name='Сумма заказа',
         validators=((MinValueValidator(
@@ -39,10 +40,31 @@ class Order(models.Model):
             )
         ),)
     )
+    payed = models.BooleanField(
+        default=False,
+        verbose_name='Оплачен'
+    )
 
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
 
     def __str__(self):
-        return f'{self.item.name}'
+        return f'Заказ: {self.pk}'
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+        verbose_name='Заказ',
+    )
+    item = models.ForeignKey(
+        Item,
+        on_delete=models.CASCADE,
+        verbose_name='Товар'
+    )
+
+    class Meta:
+        verbose_name = 'Список товаров в заказе'
+        verbose_name_plural = 'Список товаров в заказе'
