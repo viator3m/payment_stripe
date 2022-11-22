@@ -9,7 +9,8 @@ from .models import Item, Order, OrderItem
 
 
 def index(request):
-    return render(request, 'payment/index.html',)
+    items = Item.objects.all()
+    return render(request, 'payment/index.html', {'items': items})
 
 
 def success(request):
